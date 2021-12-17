@@ -15,6 +15,7 @@ namespace SpaDay.Models
         {
             Id = nextId;
             nextId++;
+            Date = DateTime.Now;
         }
 
         public User(string u, string e, string p) : this()
@@ -22,7 +23,7 @@ namespace SpaDay.Models
             Username = u;
             Email = e;
             Password = p;
-            Date = DateTime.Now;
+            
         }
 
         public override string ToString()
