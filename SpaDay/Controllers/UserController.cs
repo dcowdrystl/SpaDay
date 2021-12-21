@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SpaDay.Models;
+using SpaDay.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,26 +16,26 @@ namespace SpaDay.Controllers
 
         public IActionResult Add()
         {
-            return View();
+            AddUserViewModel addUserViewModel = new AddUserViewModel();
+            return View(addUserViewModel);
         }
 
         [HttpPost]
-        [Route("/user")]
-        public IActionResult SubmitAddUserForm(User newUser, string verify)
+        /*[Route("/user/add")]*/
+        public IActionResult Add(AddUserViewModel addUserViewModel)
         {
-            if (newUser.Password == verify)
+            if (!ModelState.IsValid)
             {
-                ViewBag.user = newUser;
-                return View("Index");
+                return View("Add", addUserViewModel);
             }
-            else
+            
+            User user = new User()
             {
-                ViewBag.error = "Passwords do not match! Try again!";
-                ViewBag.userName = newUser.Username;
-                ViewBag.eMail = newUser.Email;
-                return View("Add");
-            }
+                Username = addUserViewModel.UserName,
+                Email = addUserViewModel.Email,
+                Password = addUserViewModel.Password
+            };
+            return View("Index", user);
         }
-
     }
 }
